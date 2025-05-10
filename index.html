@@ -112,9 +112,13 @@
 
   <script>
     let allNumbers = [], drawn = [], interval = null, isPaused = false;
+
     function initGame() {
       allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
-      drawn = []; clearInterval(interval); interval = null; isPaused = false;
+      drawn = [];
+      clearInterval(interval);
+      interval = null;
+      isPaused = false;
       document.getElementById('number').textContent = '---';
       document.getElementById('prev1').textContent = '---';
       document.getElementById('prev2').textContent = '---';
@@ -123,13 +127,17 @@
       document.getElementById('checkResult').textContent = '';
       document.getElementById('pauseBtn').textContent = 'Pauză';
     }
+
     function startBingo() {
       if (interval || allNumbers.length === 0) return;
       interval = setInterval(drawNumber, 3000);
     }
+
     function togglePause() {
       if (interval) {
-        clearInterval(interval); interval = null; isPaused = true;
+        clearInterval(interval);
+        interval = null;
+        isPaused = true;
         document.getElementById('pauseBtn').textContent = 'Reia';
       } else if (isPaused) {
         interval = setInterval(drawNumber, 3000);
@@ -137,33 +145,52 @@
         isPaused = false;
       }
     }
+
     function drawNumber() {
       if (allNumbers.length === 0) {
-        clearInterval(interval); interval = null;
-        alert(\"Gata! Toate numerele au fost extrase!\"); return;
+        clearInterval(interval);
+        interval = null;
+        alert("Gata! Toate numerele au fost extrase!");
+        return;
       }
+
       const index = Math.floor(Math.random() * allNumbers.length);
       const number = allNumbers.splice(index, 1)[0];
       drawn.push(number);
-      document.getElementById('number').textContent = number;
-      document.getElementById('number').style.transform = 'scale(1.4)';
-      setTimeout(() => document.getElementById('number').style.transform = 'scale(1)', 300);
-      speechSynthesis.speak(new SpeechSynthesisUtterance(`${number}`));
+
+      const numberDisplay = document.getElementById('number');
+      numberDisplay.textContent = number;
+      numberDisplay.style.transform = 'scale(1.4)';
+      setTimeout(() => numberDisplay.style.transform = 'scale(1)', 300);
+
+      const utterance = new SpeechSynthesisUtterance(`${number}`);
+      utterance.lang = 'ro-RO';
+      speechSynthesis.speak(utterance);
+
       document.getElementById('prev3').textContent = drawn[drawn.length - 3] || '---';
       document.getElementById('prev2').textContent = drawn[drawn.length - 2] || '---';
       document.getElementById('prev1').textContent = drawn[drawn.length - 1];
-      document.getElementById('list').innerHTML = [...drawn].sort((a, b) => a - b).map(n => `<li>${n}</li>`).join('');
+
+      const sorted = [...drawn].sort((a, b) => a - b);
+      document.getElementById('list').innerHTML = sorted.map(n => `<li>${n}</li>`).join('');
     }
-    function resetGame() { initGame(); }
+
+    function resetGame() {
+      initGame();
+    }
+
     function checkNumbers() {
       const input = document.getElementById('numberInput').value;
       const nums = input.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
       if (nums.length === 0) {
-        document.getElementById('checkResult').textContent = 'Scrie câteva numere!'; return;
+        document.getElementById('checkResult').textContent = 'Scrie câteva numere!';
+        return;
       }
+
       const result = nums.map(n => drawn.includes(n) ? `${n} ✅` : `${n} ❌`);
       document.getElementById('checkResult').textContent = result.join(', ');
     }
+
     initGame();
   </script>
 
