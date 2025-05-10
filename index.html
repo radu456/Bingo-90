@@ -5,24 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffeaa7">
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon-192.png">
+  <link rel="icon" href="icon-192.png" type="image/png">
   <title>Bingo 90</title>
   <style>
-    body { font-family: 'Comic Sans MS', cursive, sans-serif; text-align: center; background: radial-gradient(circle at top, #ffeaa7, #fab1a0); color: #2d3436; margin: 0; padding: 0; }
-    .main-container { display: flex; justify-content: center; align-items: flex-start; margin-top: 30px; gap: 20px; }
-    .history { width: 100px; display: flex; flex-direction: column; align-items: center; font-weight: bold; }
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background: radial-gradient(circle at top, #ffeaa7, #fab1a0);
+      color: #2d3436;
+      margin: 0;
+      padding: 0;
+    }
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    .history {
+      width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-weight: bold;
+    }
     .history .third { font-size: 1rem; color: #b2bec3; }
     .history .second { font-size: 1.5rem; color: #636e72; }
     .history .last { font-size: 2.5rem; color: #d63031; }
-    h1 { font-size: 6rem; color: #d63031; text-shadow: 2px 2px #fff; margin: 0; transition: transform 0.5s ease; }
+    h1 {
+      font-size: 6rem;
+      color: #d63031;
+      text-shadow: 2px 2px #fff;
+      margin: 0;
+      transition: transform 0.5s ease;
+    }
     .controls { margin: 20px; }
-    button { font-size: 1.5rem; padding: 10px 25px; margin: 10px 8px; border: none; border-radius: 10px; background: linear-gradient(45deg, #74b9ff, #a29bfe); color: white; cursor: pointer; transition: background 0.3s ease; }
-    button:hover { background: linear-gradient(45deg, #0984e3, #6c5ce7); }
-    ul { list-style: none; padding: 0; font-size: 1.5rem; max-width: 600px; margin: 20px auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-    li { background: #ffeaa7; border: 2px solid #fdcb6e; border-radius: 50%; width: 60px; height: 60px; line-height: 60px; font-weight: bold; color: #2d3436; }
+    button {
+      font-size: 1.5rem;
+      padding: 10px 25px;
+      margin: 10px 8px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #74b9ff, #a29bfe);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #0984e3, #6c5ce7);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.5rem;
+      max-width: 600px;
+      margin: 20px auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    li {
+      background: #ffeaa7;
+      border: 2px solid #fdcb6e;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      font-weight: bold;
+      color: #2d3436;
+    }
     #check-area { margin-top: 30px; }
-    #numberInput { width: 300px; font-size: 1.2rem; padding: 8px; }
-    #checkResult { font-size: 1.2rem; margin-top: 10px; font-weight: bold; }
+    #numberInput {
+      width: 300px;
+      font-size: 1.2rem;
+      padding: 8px;
+    }
+    #checkResult {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -45,6 +109,7 @@
     <button onclick="checkNumbers()">Verifică</button>
     <div id="checkResult"></div>
   </div>
+
   <script>
     let allNumbers = [], drawn = [], interval = null, isPaused = false;
     function initGame() {
@@ -101,6 +166,7 @@
     }
     initGame();
   </script>
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
