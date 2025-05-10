@@ -1,7 +1,10 @@
-<!DOCTYPE html>
-<html lang="ro">
+<!DOCTYPE html><html lang="ro">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffeaa7">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
   <title>Bingo 90</title>
   <style>
     body {
@@ -12,7 +15,6 @@
       margin: 0;
       padding: 0;
     }
-
     .main-container {
       display: flex;
       justify-content: center;
@@ -20,7 +22,6 @@
       margin-top: 30px;
       gap: 20px;
     }
-
     .history {
       width: 100px;
       display: flex;
@@ -28,22 +29,9 @@
       align-items: center;
       font-weight: bold;
     }
-
-    .history .third {
-      font-size: 1rem;
-      color: #b2bec3;
-    }
-
-    .history .second {
-      font-size: 1.5rem;
-      color: #636e72;
-    }
-
-    .history .last {
-      font-size: 2.5rem;
-      color: #d63031;
-    }
-
+    .history .third { font-size: 1rem; color: #b2bec3; }
+    .history .second { font-size: 1.5rem; color: #636e72; }
+    .history .last { font-size: 2.5rem; color: #d63031; }
     h1 {
       font-size: 6rem;
       color: #d63031;
@@ -51,11 +39,7 @@
       margin: 0;
       transition: transform 0.5s ease;
     }
-
-    .controls {
-      margin: 20px;
-    }
-
+    .controls { margin: 20px; }
     button {
       font-size: 1.5rem;
       padding: 10px 25px;
@@ -67,11 +51,9 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-
     button:hover {
       background: linear-gradient(45deg, #0984e3, #6c5ce7);
     }
-
     ul {
       list-style: none;
       padding: 0;
@@ -83,7 +65,6 @@
       justify-content: center;
       gap: 10px;
     }
-
     li {
       background: #ffeaa7;
       border: 2px solid #fdcb6e;
@@ -94,17 +75,12 @@
       font-weight: bold;
       color: #2d3436;
     }
-
-    #check-area {
-      margin-top: 30px;
-    }
-
+    #check-area { margin-top: 30px; }
     #numberInput {
       width: 300px;
       font-size: 1.2rem;
       padding: 8px;
     }
-
     #checkResult {
       font-size: 1.2rem;
       margin-top: 10px;
@@ -121,24 +97,19 @@
     </div>
     <h1 id="number">---</h1>
   </div>
-
   <div class="controls">
     <button onclick="startBingo()">Start!</button>
     <button id="pauseBtn" onclick="togglePause()">Pauză</button>
     <button onclick="resetGame()">Resetează</button>
   </div>
-
   <ul id="list"></ul>
-
   <div id="check-area">
     <input type="text" id="numberInput" placeholder="Ex: 72, 86, 45">
     <button onclick="checkNumbers()">Verifică</button>
     <div id="checkResult"></div>
   </div>
-
   <script>
     let allNumbers = [], drawn = [], interval = null, isPaused = false;
-
     function initGame() {
       allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
       drawn = [];
@@ -153,12 +124,10 @@
       document.getElementById('checkResult').textContent = '';
       document.getElementById('pauseBtn').textContent = 'Pauză';
     }
-
     function startBingo() {
       if (interval || allNumbers.length === 0) return;
-      interval = setInterval(drawNumber, 3000); // 3 secunde
+      interval = setInterval(drawNumber, 3000);
     }
-
     function togglePause() {
       if (interval) {
         clearInterval(interval);
@@ -171,7 +140,6 @@
         isPaused = false;
       }
     }
-
     function drawNumber() {
       if (allNumbers.length === 0) {
         clearInterval(interval);
@@ -179,32 +147,25 @@
         alert("Gata! Toate numerele au fost extrase!");
         return;
       }
-
       const index = Math.floor(Math.random() * allNumbers.length);
       const number = allNumbers.splice(index, 1)[0];
       drawn.push(number);
-
       const numberDisplay = document.getElementById('number');
       numberDisplay.textContent = number;
       numberDisplay.style.transform = 'scale(1.4)';
       setTimeout(() => numberDisplay.style.transform = 'scale(1)', 300);
-
       const utterance = new SpeechSynthesisUtterance(`${number}`);
       utterance.lang = 'ro-RO';
       speechSynthesis.speak(utterance);
-
       document.getElementById('prev3').textContent = drawn[drawn.length - 3] || '---';
       document.getElementById('prev2').textContent = drawn[drawn.length - 2] || '---';
       document.getElementById('prev1').textContent = drawn[drawn.length - 1];
-
       const sorted = [...drawn].sort((a, b) => a - b);
       document.getElementById('list').innerHTML = sorted.map(n => `<li>${n}</li>`).join('');
     }
-
     function resetGame() {
       initGame();
     }
-
     function checkNumbers() {
       const input = document.getElementById('numberInput').value;
       const nums = input.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
@@ -212,12 +173,19 @@
         document.getElementById('checkResult').textContent = 'Scrie câteva numere!';
         return;
       }
-
       const result = nums.map(n => drawn.includes(n) ? `${n} ✅` : `${n} ❌`);
       document.getElementById('checkResult').textContent = result.join(', ');
     }
-
     initGame();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('ServiceWorker înregistrat:', reg.scope))
+          .catch(err => console.log('Eroare ServiceWorker:', err));
+      });
+    }
   </script>
 </body>
 </html>
