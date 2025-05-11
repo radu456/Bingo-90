@@ -16,6 +16,7 @@
       margin: 0;
       padding: 0;
     }
+
     .main-container {
       display: flex;
       justify-content: center;
@@ -23,6 +24,7 @@
       margin-top: 30px;
       gap: 20px;
     }
+
     .history {
       width: 100px;
       display: flex;
@@ -30,9 +32,11 @@
       align-items: center;
       font-weight: bold;
     }
+
     .history .third { font-size: 1rem; color: #b2bec3; }
     .history .second { font-size: 1.5rem; color: #636e72; }
     .history .last { font-size: 2.5rem; color: #d63031; }
+
     h1 {
       font-size: 6rem;
       color: #d63031;
@@ -40,6 +44,7 @@
       margin: 0;
       transition: transform 0.5s ease;
     }
+
     .controls { margin: 20px; }
     button {
       font-size: 1.5rem;
@@ -52,9 +57,11 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
+
     button:hover {
       background: linear-gradient(45deg, #0984e3, #6c5ce7);
     }
+
     ul {
       list-style: none;
       padding: 0;
@@ -66,6 +73,7 @@
       justify-content: center;
       gap: 10px;
     }
+
     li {
       background: #ffeaa7;
       border: 2px solid #fdcb6e;
@@ -76,12 +84,14 @@
       font-weight: bold;
       color: #2d3436;
     }
+
     #check-area { margin-top: 30px; }
     #numberInput {
       width: 300px;
       font-size: 1.2rem;
       padding: 8px;
     }
+
     #checkResult {
       font-size: 1.2rem;
       margin-top: 10px;
@@ -98,12 +108,15 @@
     </div>
     <h1 id="number">---</h1>
   </div>
+
   <div class="controls">
     <button onclick="startBingo()">Start!</button>
     <button id="pauseBtn" onclick="togglePause()">Pauză</button>
     <button onclick="resetGame()">Resetează</button>
   </div>
+
   <ul id="list"></ul>
+
   <div id="check-area">
     <input type="text" id="numberInput" placeholder="Ex: 72, 86, 45">
     <button onclick="checkNumbers()">Verifică</button>
@@ -117,7 +130,6 @@
       allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
       drawn = [];
       clearInterval(interval);
-      interval = null;
       isPaused = false;
       document.getElementById('number').textContent = '---';
       document.getElementById('prev1').textContent = '---';
@@ -136,7 +148,6 @@
     function togglePause() {
       if (interval) {
         clearInterval(interval);
-        interval = null;
         isPaused = true;
         document.getElementById('pauseBtn').textContent = 'Reia';
       } else if (isPaused) {
@@ -150,7 +161,7 @@
       if (allNumbers.length === 0) {
         clearInterval(interval);
         interval = null;
-        alert("Gata! Toate numerele au fost extrase!");
+        alert('Gata! Toate numerele au fost extrase!');
         return;
       }
 
@@ -167,8 +178,8 @@
       utterance.lang = 'ro-RO';
       speechSynthesis.speak(utterance);
 
-      document.getElementById('prev3').textContent = drawn[drawn.length - 3] || '---';
-      document.getElementById('prev2').textContent = drawn[drawn.length - 2] || '---';
+      document.getElementById('prev3').textContent = drawn.length > 2 ? drawn[drawn.length - 3] : '---';
+      document.getElementById('prev2').textContent = drawn.length > 1 ? drawn[drawn.length - 2] : '---';
       document.getElementById('prev1').textContent = drawn[drawn.length - 1];
 
       const sorted = [...drawn].sort((a, b) => a - b);
@@ -191,13 +202,20 @@
       document.getElementById('checkResult').textContent = result.join(', ');
     }
 
-    initGame();
+    window.addEventListener('DOMContentLoaded', () => {
+      initGame();
+    });
   </script>
 
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js');
+      window.addEventListener('load', async () => {
+        try {
+          await navigator.serviceWorker.register('service-worker.js');
+          console.log('Service Worker înregistrat cu succes');
+        } catch (e) {
+          console.error('Eroare la înregistrarea Service Worker:', e);
+        }
       });
     }
   </script>
