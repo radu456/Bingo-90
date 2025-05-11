@@ -108,7 +108,7 @@
     <button id="resetBtn">Resetează</button>
 
     <div id="check-area">
-      <input type="tel" pattern="[0-9 ]*" inputmode="numeric" id="numberInput" placeholder="Ex: 72 86 45">
+      <input type="tel" pattern="[0-9 ]*" id="numberInput" placeholder="Ex: 15 27 44">
       <button id="checkBtn">Verifică</button>
       <div id="checkResult"></div>
     </div>
@@ -125,14 +125,12 @@
       clearInterval(interval);
       interval = null;
       isPaused = false;
-
       document.getElementById('number').textContent = '---';
       document.getElementById('prev1').textContent = '---';
       document.getElementById('prev2').textContent = '---';
       document.getElementById('prev3').textContent = '---';
       document.getElementById('list').innerHTML = '';
       document.getElementById('checkResult').textContent = '';
-
       document.getElementById('startBtn').style.display = 'inline-block';
       document.getElementById('pauseBtn').style.display = 'none';
       document.getElementById('resumeBtn').style.display = 'none';
@@ -145,7 +143,6 @@
       }
       clearInterval(interval);
       interval = setInterval(drawNumber, 3000);
-
       document.getElementById('startBtn').style.display = 'none';
       document.getElementById('pauseBtn').style.display = 'inline-block';
       document.getElementById('resumeBtn').style.display = 'none';
@@ -155,17 +152,14 @@
       clearInterval(interval);
       interval = null;
       isPaused = true;
-
       document.getElementById('pauseBtn').style.display = 'none';
       document.getElementById('resumeBtn').style.display = 'inline-block';
     }
 
     function resumeGame() {
       if (allNumbers.length === 0) return;
-
       interval = setInterval(drawNumber, 3000);
       isPaused = false;
-
       document.getElementById('pauseBtn').style.display = 'inline-block';
       document.getElementById('resumeBtn').style.display = 'none';
     }
@@ -182,10 +176,9 @@
       const number = allNumbers.splice(index, 1)[0];
       drawn.push(number);
 
-      const numberDisplay = document.getElementById('number');
-      numberDisplay.textContent = number;
-      numberDisplay.style.transform = 'scale(1.4)';
-      setTimeout(() => numberDisplay.style.transform = 'scale(1)', 300);
+      document.getElementById('number').textContent = number;
+      document.getElementById('number').style.transform = 'scale(1.4)';
+      setTimeout(() => document.getElementById('number').style.transform = 'scale(1)', 300);
 
       const utterance = new SpeechSynthesisUtterance(`${number}`);
       utterance.lang = 'ro-RO';
@@ -205,11 +198,7 @@
 
     function checkNumbers() {
       const input = document.getElementById('numberInput').value;
-      const nums = input
-        .split(/[\s,]+/) // permite spații sau virgule
-        .map(n => parseInt(n.trim()))
-        .filter(n => !isNaN(n));
-
+      const nums = input.split(/[\s,]+/).map(n => parseInt(n.trim())).filter(n => !isNaN(n));
       if (nums.length === 0) {
         document.getElementById('checkResult').textContent = 'Scrie câteva numere!';
         return;
