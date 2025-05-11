@@ -101,7 +101,8 @@
 
   <div class="controls">
     <button id="startBtn">Start!</button>
-    <button id="pauseBtn">Pauză</button>
+    <button id="pauseBtn" style="display:none">Pauză</button>
+    <button id="resumeBtn" style="display:none">Reia</button>
     <button id="resetBtn">Resetează</button>
   </div>
 
@@ -122,13 +123,17 @@
       clearInterval(interval);
       interval = null;
       isPaused = false;
+
       document.getElementById('number').textContent = '---';
       document.getElementById('prev1').textContent = '---';
       document.getElementById('prev2').textContent = '---';
       document.getElementById('prev3').textContent = '---';
       document.getElementById('list').innerHTML = '';
       document.getElementById('checkResult').textContent = '';
-      document.getElementById('pauseBtn').textContent = 'Pauză';
+
+      document.getElementById('startBtn').style.display = 'inline-block';
+      document.getElementById('pauseBtn').style.display = 'none';
+      document.getElementById('resumeBtn').style.display = 'none';
     }
 
     function startBingo() {
@@ -138,19 +143,29 @@
       }
       clearInterval(interval);
       interval = setInterval(drawNumber, 3000);
+
+      document.getElementById('startBtn').style.display = 'none';
+      document.getElementById('pauseBtn').style.display = 'inline-block';
+      document.getElementById('resumeBtn').style.display = 'none';
     }
 
     function togglePause() {
-      if (!isPaused && interval) {
-        clearInterval(interval);
-        interval = null;
-        isPaused = true;
-        document.getElementById('pauseBtn').textContent = 'Reia';
-      } else if (isPaused && allNumbers.length > 0) {
-        interval = setInterval(drawNumber, 3000);
-        isPaused = false;
-        document.getElementById('pauseBtn').textContent = 'Pauză';
-      }
+      clearInterval(interval);
+      interval = null;
+      isPaused = true;
+
+      document.getElementById('pauseBtn').style.display = 'none';
+      document.getElementById('resumeBtn').style.display = 'inline-block';
+    }
+
+    function resumeGame() {
+      if (allNumbers.length === 0) return;
+
+      interval = setInterval(drawNumber, 3000);
+      isPaused = false;
+
+      document.getElementById('pauseBtn').style.display = 'inline-block';
+      document.getElementById('resumeBtn').style.display = 'none';
     }
 
     function drawNumber() {
@@ -202,6 +217,7 @@
       initGame();
       document.getElementById('startBtn').addEventListener('click', startBingo);
       document.getElementById('pauseBtn').addEventListener('click', togglePause);
+      document.getElementById('resumeBtn').addEventListener('click', resumeGame);
       document.getElementById('resetBtn').addEventListener('click', resetGame);
       document.getElementById('checkBtn').addEventListener('click', checkNumbers);
     });
