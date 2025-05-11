@@ -77,7 +77,7 @@
       color: #2d3436;
     }
     #check-area {
-      margin-top: 10px;
+      margin: 10px auto 0;
     }
     #numberInput {
       width: 300px;
@@ -106,21 +106,22 @@
     <button id="pauseBtn" style="display:none">Pauză</button>
     <button id="resumeBtn" style="display:none">Reia</button>
     <button id="resetBtn">Resetează</button>
+  </div>
 
-    <div id="check-area">
-      <input
-        type="tel"
-        id="numberInput"
-        pattern="[0-9 ]*"
-        inputmode="numeric"
-        placeholder="Ex: 12 45 78"
-        autocomplete="off"
-        autocorrect="off"
-        enterkeyhint="done"
-      />
-      <button id="checkBtn">Verifică</button>
-      <div id="checkResult"></div>
-    </div>
+  <!-- Bara de căutare urcă sus -->
+  <div id="check-area">
+    <input
+      type="tel"
+      id="numberInput"
+      pattern="[0-9 ]*"
+      inputmode="numeric"
+      placeholder="Ex: 12 45 78"
+      autocomplete="off"
+      autocorrect="off"
+      enterkeyhint="done"
+    />
+    <button id="checkBtn">Verifică</button>
+    <div id="checkResult"></div>
   </div>
 
   <ul id="list"></ul>
@@ -185,10 +186,9 @@
       const number = allNumbers.splice(index, 1)[0];
       drawn.push(number);
 
-      const numberDisplay = document.getElementById('number');
-      numberDisplay.textContent = number;
-      numberDisplay.style.transform = 'scale(1.4)';
-      setTimeout(() => numberDisplay.style.transform = 'scale(1)', 300);
+      document.getElementById('number').textContent = number;
+      document.getElementById('number').style.transform = 'scale(1.4)';
+      setTimeout(() => document.getElementById('number').style.transform = 'scale(1)', 300);
 
       const utterance = new SpeechSynthesisUtterance(`${number}`);
       utterance.lang = 'ro-RO';
@@ -226,7 +226,7 @@
       document.getElementById('resetBtn').addEventListener('click', resetGame);
       document.getElementById('checkBtn').addEventListener('click', checkNumbers);
 
-      // Hack: forțează cursorul la final când apeși în input
+      // Hack: forțează cursor la final
       const numInput = document.getElementById('numberInput');
       numInput.addEventListener('focus', () => {
         setTimeout(() => {
