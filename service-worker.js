@@ -4,7 +4,8 @@ const filesToCache = [
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './service-worker.js'
 ];
 
 self.addEventListener('install', event => {
