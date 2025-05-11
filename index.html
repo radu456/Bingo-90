@@ -76,7 +76,9 @@
       font-weight: bold;
       color: #2d3436;
     }
-    #check-area { margin-top: 30px; }
+    #check-area {
+      margin-top: 10px;
+    }
     #numberInput {
       width: 300px;
       font-size: 1.2rem;
@@ -104,15 +106,15 @@
     <button id="pauseBtn" style="display:none">Pauză</button>
     <button id="resumeBtn" style="display:none">Reia</button>
     <button id="resetBtn">Resetează</button>
+
+    <div id="check-area">
+      <input type="tel" pattern="[0-9 ]*" inputmode="numeric" id="numberInput" placeholder="Ex: 72 86 45">
+      <button id="checkBtn">Verifică</button>
+      <div id="checkResult"></div>
+    </div>
   </div>
 
   <ul id="list"></ul>
-
-  <div id="check-area">
-    <input type="text" id="numberInput" placeholder="Ex: 72, 86, 45">
-    <button id="checkBtn">Verifică</button>
-    <div id="checkResult"></div>
-  </div>
 
   <script>
     let allNumbers = [], drawn = [], interval = null, isPaused = false;
@@ -203,7 +205,11 @@
 
     function checkNumbers() {
       const input = document.getElementById('numberInput').value;
-      const nums = input.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+      const nums = input
+        .split(/[\s,]+/) // permite spații sau virgule
+        .map(n => parseInt(n.trim()))
+        .filter(n => !isNaN(n));
+
       if (nums.length === 0) {
         document.getElementById('checkResult').textContent = 'Scrie câteva numere!';
         return;
