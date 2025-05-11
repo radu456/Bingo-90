@@ -141,14 +141,15 @@
     }
 
     function togglePause() {
-      if (interval) {
+      if (!isPaused && interval) {
         clearInterval(interval);
+        interval = null;
         isPaused = true;
         document.getElementById('pauseBtn').textContent = 'Reia';
-      } else if (isPaused) {
+      } else if (isPaused && allNumbers.length > 0) {
         interval = setInterval(drawNumber, 3000);
-        document.getElementById('pauseBtn').textContent = 'Pauză';
         isPaused = false;
+        document.getElementById('pauseBtn').textContent = 'Pauză';
       }
     }
 
