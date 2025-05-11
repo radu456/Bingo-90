@@ -1,4 +1,5 @@
-const cacheName = 'bingo-cache-v2'; // schimbat v1 -> v2
+const cacheName = 'bingo-cache-v3'; // versiune nouă = forțează actualizarea
+
 const filesToCache = [
   './',
   './index.html',
