@@ -16,7 +16,6 @@
       margin: 0;
       padding: 0;
     }
-
     .main-container {
       display: flex;
       justify-content: center;
@@ -24,7 +23,6 @@
       margin-top: 30px;
       gap: 20px;
     }
-
     .history {
       width: 100px;
       display: flex;
@@ -32,11 +30,9 @@
       align-items: center;
       font-weight: bold;
     }
-
     .history .third { font-size: 1rem; color: #b2bec3; }
     .history .second { font-size: 1.5rem; color: #636e72; }
     .history .last { font-size: 2.5rem; color: #d63031; }
-
     h1 {
       font-size: 6rem;
       color: #d63031;
@@ -44,7 +40,6 @@
       margin: 0;
       transition: transform 0.5s ease;
     }
-
     .controls { margin: 20px; }
     button {
       font-size: 1.5rem;
@@ -57,11 +52,9 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-
     button:hover {
       background: linear-gradient(45deg, #0984e3, #6c5ce7);
     }
-
     ul {
       list-style: none;
       padding: 0;
@@ -73,7 +66,6 @@
       justify-content: center;
       gap: 10px;
     }
-
     li {
       background: #ffeaa7;
       border: 2px solid #fdcb6e;
@@ -84,14 +76,12 @@
       font-weight: bold;
       color: #2d3436;
     }
-
     #check-area { margin-top: 30px; }
     #numberInput {
       width: 300px;
       font-size: 1.2rem;
       padding: 8px;
     }
-
     #checkResult {
       font-size: 1.2rem;
       margin-top: 10px;
@@ -110,16 +100,16 @@
   </div>
 
   <div class="controls">
-    <button onclick="startBingo()">Start!</button>
-    <button id="pauseBtn" onclick="togglePause()">Pauză</button>
-    <button onclick="resetGame()">Resetează</button>
+    <button id="startBtn">Start!</button>
+    <button id="pauseBtn">Pauză</button>
+    <button id="resetBtn">Resetează</button>
   </div>
 
   <ul id="list"></ul>
 
   <div id="check-area">
     <input type="text" id="numberInput" placeholder="Ex: 72, 86, 45">
-    <button onclick="checkNumbers()">Verifică</button>
+    <button id="checkBtn">Verifică</button>
     <div id="checkResult"></div>
   </div>
 
@@ -204,6 +194,10 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       initGame();
+      document.getElementById('startBtn').addEventListener('click', startBingo);
+      document.getElementById('pauseBtn').addEventListener('click', togglePause);
+      document.getElementById('resetBtn').addEventListener('click', resetGame);
+      document.getElementById('checkBtn').addEventListener('click', checkNumbers);
     });
   </script>
 
