@@ -1,4 +1,4 @@
-const cacheName = 'bingo-cache-v1';
+const cacheName = 'bingo-cache-v2'; // schimbat v1 -> v2
 const filesToCache = [
   './',
   './index.html',
@@ -11,6 +11,16 @@ const filesToCache = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(cacheName).then(cache => cache.addAll(filesToCache))
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== cacheName).map(key => caches.delete(key))
+      );
+    })
   );
 });
 
