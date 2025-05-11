@@ -108,7 +108,16 @@
     <button id="resetBtn">Resetează</button>
 
     <div id="check-area">
-      <input type="tel" pattern="[0-9 ]*" id="numberInput" placeholder="Ex: 15 27 44">
+      <input
+        type="tel"
+        id="numberInput"
+        pattern="[0-9 ]*"
+        inputmode="numeric"
+        placeholder="Ex: 12 45 78"
+        autocomplete="off"
+        autocorrect="off"
+        enterkeyhint="done"
+      />
       <button id="checkBtn">Verifică</button>
       <div id="checkResult"></div>
     </div>
@@ -176,9 +185,10 @@
       const number = allNumbers.splice(index, 1)[0];
       drawn.push(number);
 
-      document.getElementById('number').textContent = number;
-      document.getElementById('number').style.transform = 'scale(1.4)';
-      setTimeout(() => document.getElementById('number').style.transform = 'scale(1)', 300);
+      const numberDisplay = document.getElementById('number');
+      numberDisplay.textContent = number;
+      numberDisplay.style.transform = 'scale(1.4)';
+      setTimeout(() => numberDisplay.style.transform = 'scale(1)', 300);
 
       const utterance = new SpeechSynthesisUtterance(`${number}`);
       utterance.lang = 'ro-RO';
@@ -215,6 +225,14 @@
       document.getElementById('resumeBtn').addEventListener('click', resumeGame);
       document.getElementById('resetBtn').addEventListener('click', resetGame);
       document.getElementById('checkBtn').addEventListener('click', checkNumbers);
+
+      // Hack: forțează cursorul la final când apeși în input
+      const numInput = document.getElementById('numberInput');
+      numInput.addEventListener('focus', () => {
+        setTimeout(() => {
+          numInput.setSelectionRange(numInput.value.length, numInput.value.length);
+        }, 10);
+      });
     });
   </script>
 
