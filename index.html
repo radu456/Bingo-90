@@ -120,6 +120,7 @@
       allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
       drawn = [];
       clearInterval(interval);
+      interval = null;
       isPaused = false;
       document.getElementById('number').textContent = '---';
       document.getElementById('prev1').textContent = '---';
@@ -131,7 +132,11 @@
     }
 
     function startBingo() {
-      if (interval || allNumbers.length === 0) return;
+      if (allNumbers.length === 0) {
+        alert("Toate numerele au fost extrase!");
+        return;
+      }
+      clearInterval(interval);
       interval = setInterval(drawNumber, 3000);
     }
 
